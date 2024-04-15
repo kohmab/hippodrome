@@ -1,8 +1,13 @@
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.Mockito.mockStatic;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 
 class HorseTest {
 
@@ -59,5 +64,22 @@ class HorseTest {
         assertEquals(0, new Horse(",,,", 0).getDistance());
     }
 
+    @Test
+    void moveUsesGetRandom(){
+        try (MockedStatic<Horse> mockedStatic = mockStatic(Horse.class)){
+            new Horse("name",10,0).move();
+            mockedStatic.verify(() -> Horse.getRandomDouble(0.2,0.9));
+        }
+    }
 
+    @ParameterizedTest
+    @ValueSource(doubles = {0,0.1,10.0,1000.0})
+    void move(double val){
+        try (MockedStatic<Horse> mockedStatic = mockStatic(Horse.class)){
+            Horse h = new Horse("name",10,0);
+            mockedStatic.when(() -> Horse.getRandomDouble(anyDouble(),anyDouble())).thenReturn(val);
+            h.move();
+            assertEquals(10*val,h.getDistance());
+        }
+    }
 }
