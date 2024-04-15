@@ -39,7 +39,13 @@ class HorseTest {
     @ParameterizedTest
     @ValueSource(strings = {"КОЛЯ","あいこ","张","John","..."})
     void getName(String name){
-        assertEquals(name,(new Horse(name,10,10)).getName());
+        assertEquals(name,new Horse(name,10,10).getName());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0,10,20,Integer.MAX_VALUE})
+    void getSpeed(int speed){
+        assertEquals(speed,new Horse("...",speed,10).getSpeed());
     }
 
 
