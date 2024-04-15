@@ -1,0 +1,39 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+class HorseTest {
+
+    @Test
+    void nullNameConstructor() {
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> new Horse(null, 10, 10));
+        assertEquals("Name cannot be null.", ex.getMessage());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", " ", "   ", "       ", "\t", "\n", "\t\t", "\t\n"})
+    void blankNameConstructor(String string) {
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> new Horse(string, 10, 10));
+        assertEquals("Name cannot be blank.", ex.getMessage());
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, Integer.MIN_VALUE,-150000})
+    void negativeSpeedConstructor(int speed) {
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> new Horse("name", speed, 10));
+        assertEquals("Speed cannot be negative.", ex.getMessage());
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, Integer.MIN_VALUE,-150000})
+    void negativeDistanceConstructor(int distance) {
+        Exception ex = assertThrows(IllegalArgumentException.class, () -> new Horse("name", 1, distance));
+        assertEquals("Distance cannot be negative.", ex.getMessage());
+
+    }
+
+}
