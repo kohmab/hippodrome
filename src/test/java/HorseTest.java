@@ -36,4 +36,11 @@ class HorseTest {
 
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"КОЛЯ","あいこ","张","John","..."})
+    void getName(String name){
+        assertEquals(name,(new Horse(name,10,10)).getName());
+    }
+
+
 }
