@@ -6,7 +6,6 @@ import org.mockito.Mockito;
 import java.io.PrintStream;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
 
@@ -17,7 +16,7 @@ class MainTest {
         PrintStream originalSout = System.out;
         System.setOut(Mockito.mock(PrintStream.class));
         try {
-            new Main().main(null);
+            Main.main(null);
         } catch (Exception ignore) {
         } finally {
             System.setOut(originalSout);
